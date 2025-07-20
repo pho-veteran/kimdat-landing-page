@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { HeroCarousel } from '@/components/ui/hero-carousel'
 
 export default function Test() {
   return (
@@ -29,60 +30,43 @@ export default function Test() {
         </div>
       </header>
 
-      {/* Hero Section - Showcasing Color Theme */}
-      <section className="py-20 lg:py-32 relative">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-block bg-secondary text-secondary-foreground px-4 py-2 rounded-full text-sm font-medium mb-8">
-              ✨ Modern Color Theme Demo
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-              Experience the New
-              <span className="block text-primary mt-2">Design System</span>
-                </h1>
-            
-            <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
-              A modern black and white foundation with green accents. Clean, minimal, and focused on readability and user experience.
-                </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <Button size="lg" className="px-8 py-3">
-                Primary Button
-              </Button>
-              <Button variant="outline" size="lg" className="px-8 py-3">
-                Secondary Button
-                  </Button>
-              <Button variant="secondary" size="lg" className="px-8 py-3">
-                Muted Button
-                  </Button>
-                </div>
-
-            {/* Color Palette Demo */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
-              <div className="text-center">
-                <div className="w-full h-20 bg-background border-2 border-border rounded-lg mb-3"></div>
-                <div className="text-sm font-medium text-foreground">Background</div>
-                <div className="text-xs text-muted-foreground">Pure White</div>
+      {/* Hero Carousel - Full Viewport Height with Shared Content */}
+      <section className="h-screen">
+        <HeroCarousel 
+          autoPlay={true} 
+          autoPlayDelay={4000}
+          backgroundImages={[
+            "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1920&h=1080&fit=crop&crop=entropy&auto=format", // Modern Cityscape
+            "https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=1920&h=1080&fit=crop&crop=entropy&auto=format", // Ocean & Waves
+            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&crop=entropy&auto=format", // Mountain Landscape
+            "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=1920&h=1080&fit=crop&crop=entropy&auto=format", // Desert Dunes
+            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1920&h=1080&fit=crop&crop=entropy&auto=format", // Technology Circuit
+          ]}
+        >
+          {[
+            /* Single shared content that appears on all slides */
+            <div key="shared-content" className="text-center text-white px-8 max-w-4xl">
+              <div className="inline-block bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-8">
+                ✨ Experience Innovation
               </div>
-              <div className="text-center">
-                <div className="w-full h-20 bg-foreground rounded-lg mb-3"></div>
-                <div className="text-sm font-medium text-foreground">Foreground</div>
-                <div className="text-xs text-muted-foreground">Green Text</div>
-              </div>
-              <div className="text-center">
-                <div className="w-full h-20 bg-primary rounded-lg mb-3"></div>
-                <div className="text-sm font-medium text-foreground">Primary</div>
-                <div className="text-xs text-muted-foreground">Deep Green</div>
-                </div>
-              <div className="text-center">
-                <div className="w-full h-20 bg-accent rounded-lg mb-3"></div>
-                <div className="text-sm font-medium text-foreground">Accent</div>
-                <div className="text-xs text-muted-foreground">Green Accent</div>
+              <h1 className="text-6xl md:text-7xl font-bold mb-6 leading-tight">
+                Welcome to
+                <span className="block text-green-400 mt-2">KIM DAT</span>
+              </h1>
+              <p className="text-xl mb-12 opacity-90 max-w-2xl mx-auto leading-relaxed">
+                Discover amazing landscapes and cutting-edge solutions across diverse environments and technologies.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="px-8 py-3 bg-white text-green-600 hover:bg-gray-100">
+                  Get Started
+                </Button>
+                <Button variant="outline" size="lg" className="px-8 py-3 border-white text-white hover:bg-white hover:text-green-600">
+                  Learn More
+                </Button>
               </div>
             </div>
-          </div>
-        </div>
+          ]}
+        </HeroCarousel>
       </section>
 
       {/* Typography & Text Demo */}

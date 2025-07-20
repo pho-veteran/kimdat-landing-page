@@ -27,8 +27,8 @@ export function Header() {
       }}
     >
       <div className="max-w-7xl mx-auto flex items-center h-full px-6 justify-between">
-        <Logo />
-        <Navigation />
+        <Logo scrolled={scrolled} />
+        <Navigation scrolled={scrolled} />
       </div>
     </header>
   );

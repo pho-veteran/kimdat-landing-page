@@ -1,6 +1,10 @@
 import { Link } from "react-router";
 
-export function Logo() {
+interface LogoProps {
+  scrolled?: boolean;
+}
+
+export function Logo({ scrolled = false }: LogoProps) {
   return (
     <Link 
       to="/" 
@@ -16,10 +20,18 @@ export function Logo() {
       
       {/* Brand Text */}
       <div className="flex items-baseline justify-between">
-        <span className="text-2xl font-bold font-mono tracking-widest text-primary leading-none group-hover:text-primary/90 transition-colors duration-200">
+        <span className={`text-2xl font-bold font-mono tracking-widest leading-none transition-colors duration-500 ${
+          scrolled 
+            ? "text-primary group-hover:text-primary/90" 
+            : "text-white group-hover:text-white/90"
+        }`}>
           KIMDAT
         </span>
-        <span className="text-[0.6rem] text-muted-foreground font-medium tracking-wider uppercase opacity-70 group-hover:opacity-90 transition-opacity duration-200 ml-2">
+        <span className={`text-[0.6rem] font-medium tracking-wider uppercase opacity-70 group-hover:opacity-90 transition-all duration-500 ml-2 ${
+          scrolled 
+            ? "text-muted-foreground" 
+            : "text-white/80"
+        }`}>
           Forest Products
         </span>
       </div>
