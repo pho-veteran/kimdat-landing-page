@@ -50,7 +50,7 @@ export default function Home() {
                   onClick={scrollToIntro}
                   className="bg-white/25 hover:bg-white/35 backdrop-blur-md text-white border border-white/40 hover:border-white/60 px-8 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl"
                 >
-                  Khám Phá Thêm
+                  Khám phá thêm
                   <ChevronDown className="w-4 h-4" />
                 </button>
               </div>

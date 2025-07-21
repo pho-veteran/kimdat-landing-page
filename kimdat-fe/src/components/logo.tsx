@@ -19,7 +19,7 @@ export function Logo({ scrolled = false }: LogoProps) {
       />
       
       {/* Brand Text */}
-      <div className="flex items-baseline justify-between">
+      <div className="hidden sm:flex items-baseline justify-between">
         <span className={`text-2xl font-bold font-mono tracking-widest leading-none transition-colors duration-500 ${
           scrolled 
             ? "text-primary group-hover:text-primary/90" 
