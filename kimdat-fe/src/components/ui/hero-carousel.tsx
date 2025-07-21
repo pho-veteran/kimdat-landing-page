@@ -91,7 +91,7 @@ export const HeroCarousel = ({
           </div>
         ))}
       </div>
-      
+
       {/* Fixed centered content that doesn't move */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
         {children[0]}
@@ -107,8 +107,8 @@ export const HeroCarousel = ({
               "bg-black/50 hover:bg-black/70 text-white",
               "rounded-full p-2 transition-all duration-300 ease-out",
               "hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50",
-              isHovered 
-                ? "opacity-100 left-4 translate-x-0" 
+              isHovered
+                ? "opacity-100 left-4 translate-x-0"
                 : "opacity-0 -left-8 -translate-x-4"
             )}
             aria-label="Previous slide"
@@ -123,8 +123,8 @@ export const HeroCarousel = ({
               "bg-black/50 hover:bg-black/70 text-white",
               "rounded-full p-2 transition-all duration-300 ease-out",
               "hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50",
-              isHovered 
-                ? "opacity-100 right-4 translate-x-0" 
+              isHovered
+                ? "opacity-100 right-4 translate-x-0"
                 : "opacity-0 -right-8 translate-x-4"
             )}
             aria-label="Next slide"
@@ -139,8 +139,8 @@ export const HeroCarousel = ({
         <div className={cn(
           "absolute left-1/2 -translate-x-1/2 z-20 flex space-x-2",
           "transition-all duration-300 ease-out",
-          isHovered 
-            ? "opacity-100 bottom-6 translate-y-0" 
+          isHovered
+            ? "opacity-100 bottom-6 translate-y-0"
             : "opacity-0 -bottom-2 translate-y-4"
         )}>
           {Array.from({ length: totalSlides }).map((_, index) => (
