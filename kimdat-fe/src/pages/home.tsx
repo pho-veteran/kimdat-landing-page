@@ -1,5 +1,6 @@
 import { HeroCarousel } from '../components/ui/hero-carousel'
 import { AuroraText } from '../components/magicui/aurora-text'
+import { BoxReveal } from '../components/magicui/box-reveal'
 import { ChevronDown } from 'lucide-react'
 
 export default function Home() {
@@ -58,79 +59,55 @@ export default function Home() {
         </HeroCarousel>
       </section>
 
-      {/* Intro Section */}
-      <section id="intro-section" className="py-20 bg-gradient-to-br from-green-50 to-amber-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
-              Về KimDat Forest Products
-            </h2>
-            <div className="w-24 h-1 bg-amber-500 mx-auto mb-8"></div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-                Chuyên Gia Về Sản Phẩm Gỗ Tự Nhiên
-              </h3>
-              <p className="text-gray-700 leading-relaxed">
-                KimDat Forest Products là công ty hàng đầu trong lĩnh vực sản xuất các sản phẩm từ gỗ,
-                tre, nứa và các vật liệu tự nhiên. Chúng tôi cam kết mang đến những sản phẩm chất lượng cao,
-                thân thiện với môi trường.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                Với nhiều năm kinh nghiệm, chúng tôi chuyên sản xuất bàn ghế đan dây,
-                sản phẩm nhựa giả mây, và các vật liệu tết bện truyền thống,
-                kết hợp kỹ thuật hiện đại với thủ công truyền thống.
-              </p>
-
-              <div className="grid grid-cols-2 gap-6 mt-8">
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                  <div className="text-3xl font-bold text-amber-600 mb-2">15+</div>
-                  <div className="text-sm text-gray-600">Năm Kinh Nghiệm</div>
-                </div>
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                  <div className="text-3xl font-bold text-green-600 mb-2">500+</div>
-                  <div className="text-sm text-gray-600">Sản Phẩm</div>
-                </div>
+      {/* Introduction Section */}
+      <section
+        id="intro-section"
+        className="bg-white py-12 md:py-16 relative overflow-hidden"
+        style={{
+          position: 'relative',
+        }}
+      >
+        {/* Background pattern */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full z-0"
+          style={{
+            backgroundImage: 'url(/bamboo-pattern.jpg)',
+            backgroundRepeat: 'repeat',
+            backgroundSize: '500px',
+            filter: 'grayscale(1)',
+            opacity: 0.1,
+            pointerEvents: 'none',
+          }}
+        />
+        <div className="max-w-4xl mx-auto px-8 relative z-10">
+          <div className="text-center">
+            <div className="space-y-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+                Về Chúng Tôi
+              </h2>
+              {/* Decorative divider */}
+              <div className="flex items-center justify-center space-x-4">
+                <div className="w-12 h-px bg-gray-300"></div>
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div className="w-12 h-px bg-gray-300"></div>
               </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                <div className="flex items-center mb-3">
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-green-600 text-xl">🌿</span>
-                  </div>
-                  <h4 className="font-semibold text-gray-800">Thân Thiện Môi Trường</h4>
-                </div>
-                <p className="text-gray-600 text-sm">
-                  Sử dụng 100% nguyên liệu tự nhiên, không độc hại, có thể tái chế
-                </p>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                <div className="flex items-center mb-3">
-                  <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-amber-600 text-xl">🔨</span>
-                  </div>
-                  <h4 className="font-semibold text-gray-800">Thủ Công Tinh Tế</h4>
-                </div>
-                <p className="text-gray-600 text-sm">
-                  Kết hợp kỹ thuật truyền thống với công nghệ hiện đại
-                </p>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                <div className="flex items-center mb-3">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-blue-600 text-xl">✨</span>
-                  </div>
-                  <h4 className="font-semibold text-gray-800">Chất Lượng Cao</h4>
-                </div>
-                <p className="text-gray-600 text-sm">
-                  Kiểm soát chất lượng nghiêm ngặt từ nguyên liệu đến thành phẩm
-                </p>
+              <div className="space-y-6 text-sm md:text-base text-gray-700 leading-relaxed max-w-3xl mx-auto">
+                <BoxReveal boxColor="#22c55e" duration={0.6}>
+                  <p>
+                    <span className="font-semibold text-gray-800">Công ty TNHH Kim Đạt</span> là đơn vị chuyên sản xuất và cung cấp các sản phẩm nội thất thủ công từ <span className="text-green-600 font-medium">gỗ, tre, nứa, rơm</span>, vật liệu đan dây và nhựa giả mây.
+                  </p>
+                </BoxReveal>
+                <BoxReveal boxColor="#22c55e" duration={0.8}>
+                  <p>
+                    Dù là một thương hiệu mới trên thị trường, chúng tôi mang theo khát vọng <span className="text-green-600 font-medium">gìn giữ tinh hoa thủ công Việt</span> và kết hợp cùng phong cách thiết kế hiện đại để tạo nên những sản phẩm <span className="font-medium text-gray-800">bền vững – tinh tế – đầy cảm hứng</span>.
+                  </p>
+                </BoxReveal>
+                <BoxReveal boxColor="#22c55e" duration={1}>
+                  <p>
+                    Chúng tôi không chỉ tạo ra nội thất, mà còn <span className="text-green-600 font-medium">kiến tạo không gian sống gần gũi với thiên nhiên</span> – nơi vẻ đẹp mộc mạc hòa quyện cùng sự tiện nghi và phong cách riêng biệt của từng khách hàng.
+                  </p>
+                </BoxReveal>
               </div>
             </div>
           </div>
