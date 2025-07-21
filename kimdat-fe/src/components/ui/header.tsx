@@ -30,31 +30,30 @@ export function Header() {
       >
         <div className="max-w-7xl mx-auto flex items-center h-full px-6 justify-between">
           <Logo scrolled={scrolled} />
-          
+
           {/* Desktop Navigation */}
           <Navigation scrolled={scrolled} />
-          
+
           {/* Mobile Hamburger Button */}
-          <button 
+          <button
             onClick={() => setMobileMenuOpen(true)}
-            className={`md:hidden p-2 rounded-lg transition-colors ${
-              scrolled 
-                ? "text-foreground hover:bg-accent" 
+            className={`md:hidden p-2 rounded-lg transition-colors ${scrolled
+                ? "text-foreground hover:bg-accent"
                 : "text-white hover:bg-white/10"
-            }`}
+              }`}
             aria-label="Open menu"
           >
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
       </header>
-      
+
       {/* Mobile Navigation Sidebar */}
-      <MobileNavigation 
-        isOpen={mobileMenuOpen} 
-        onClose={() => setMobileMenuOpen(false)} 
+      <MobileNavigation
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
       />
     </>
   );
