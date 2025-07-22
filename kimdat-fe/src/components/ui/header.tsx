@@ -29,10 +29,14 @@ export function Header() {
         }}
       >
         <div className="max-w-7xl mx-auto flex items-center h-full px-6 justify-between">
-          <Logo scrolled={scrolled} />
+          <div className="relative z-10">
+            <Logo scrolled={scrolled} />
+          </div>
 
           {/* Desktop Navigation */}
-          <Navigation scrolled={scrolled} />
+          <div className="relative z-20">
+            <Navigation scrolled={scrolled} />
+          </div>
 
           {/* Mobile Hamburger Button */}
           <button

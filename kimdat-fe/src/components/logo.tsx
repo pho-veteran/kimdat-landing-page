@@ -19,14 +19,14 @@ export function Logo({ scrolled = false }: LogoProps) {
       />
 
       {/* Brand Text */}
-      <div className="hidden sm:flex items-baseline justify-between">
-        <span className={`text-2xl font-bold font-mono tracking-widest leading-none transition-colors duration-500 ${scrolled
+      <div className="flex items-baseline justify-between whitespace-nowrap">
+        <span className={`text-2xl font-bold font-mono tracking-widest leading-none transition-colors duration-500 whitespace-nowrap ${scrolled
             ? "text-primary group-hover:text-primary/90"
             : "text-white group-hover:text-white/90"
           }`}>
           KIMDAT
         </span>
-        <span className={`text-[0.6rem] font-medium tracking-wider uppercase opacity-70 group-hover:opacity-90 transition-all duration-500 ml-2 ${scrolled
+        <span className={`text-[0.6rem] font-medium tracking-wider uppercase opacity-70 group-hover:opacity-90 transition-all duration-500 ml-2 whitespace-nowrap ${scrolled
             ? "text-muted-foreground"
             : "text-white/80"
           }`}>
