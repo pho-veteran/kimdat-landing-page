@@ -1,173 +1,117 @@
 "use client"
 
 import * as React from "react"
+import Image from "next/image"
+import Link from "next/link"
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
+  Package,
+  Newspaper,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { LogoutButton } from "@/components/nav-user"
+import { ModeToggle } from "@/components/theme-toggle"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar"
 
-// This is sample data.
+// Logo component for sidebar
+function SidebarLogo() {
+  const { state } = useSidebar()
+  const isCollapsed = state === "collapsed"
+
+  return (
+    <Link 
+      href="/"
+      className="group block transition-all duration-200 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 rounded-md"
+    >
+      <div className={`flex items-center ${isCollapsed ? 'justify-center py-2 pl-1' : 'gap-3 px-3 py-4'}`}>
+        <Image
+          src="/logo.png"
+          alt="KimDat Logo"
+          width={isCollapsed ? 44 : 48}
+          height={isCollapsed ? 44 : 48}
+          className="object-contain flex-shrink-0 group-hover:scale-105 transition-transform duration-200"
+          priority
+        />
+        {!isCollapsed && (
+          <div className="flex flex-col">
+            <span className="text-lg font-bold font-mono tracking-wider leading-none group-hover:text-primary transition-colors duration-200">
+              KIMDAT
+            </span>
+            <span className="text-[0.5rem] font-medium tracking-wider uppercase opacity-70 group-hover:opacity-90 transition-opacity duration-200">
+              Forest Products
+            </span>
+          </div>
+        )}
+      </div>
+    </Link>
+  )
+}
+
+// Navigation data for the sidebar
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
-      title: "Playground",
+      title: "Sản phẩm",
       url: "#",
-      icon: SquareTerminal,
+      icon: Package,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Danh mục sản phẩm",
+          url: "/products/categories",
         },
         {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
+          title: "Sản phẩm",
+          url: "/products",
         },
       ],
     },
     {
-      title: "Models",
+      title: "Tin tức",
       url: "#",
-      icon: Bot,
+      icon: Newspaper,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Danh mục tin tức",
+          url: "/news/categories",
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
+          title: "Tin tức",
+          url: "/news",
         },
       ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
     },
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { state } = useSidebar()
+  const isCollapsed = state === "collapsed"
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <SidebarLogo />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <div className={isCollapsed ? "flex flex-col gap-1" : "flex gap-2"}>
+          <div className="flex-1">
+            <ModeToggle />
+          </div>
+          <div className="flex-1">
+            <LogoutButton />
+          </div>
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
