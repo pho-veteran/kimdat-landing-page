@@ -21,10 +21,10 @@ export default function NoPermissionPage() {
             </svg>
           </div>
           <CardTitle className="text-2xl font-bold text-red-600">
-            Access Denied
+            Truy Cập Bị Từ Chối
           </CardTitle>
           <CardDescription>
-            You don&apos;t have permission to access this resource. Please contact your administrator if you think this is an error.
+            Bạn không có quyền truy cập tài nguyên này. Vui lòng liên hệ với quản trị viên nếu bạn cho rằng đây là lỗi.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -36,7 +36,7 @@ export default function NoPermissionPage() {
               }}
             >
               <Button type="submit" variant="outline" className="w-full">
-                Sign Out
+                Đăng Xuất
               </Button>
             </form>
           </div>
