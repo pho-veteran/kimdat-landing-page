@@ -58,6 +58,55 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
 
+        {/* Environment Variables Debug Card */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Environment Variables (Debug)</CardTitle>
+            <CardDescription>
+              Current environment configuration for debugging
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p><strong>NODE_ENV:</strong> <code className="bg-gray-100 px-2 py-1 rounded text-sm">{process.env.NODE_ENV || 'Not set'}</code></p>
+                  <p><strong>DATABASE_URL:</strong> <code className="bg-gray-100 px-2 py-1 rounded text-sm break-all">{process.env.DATABASE_URL ? 'Set (hidden for security)' : 'Not set'}</code></p>
+                  <p><strong>AUTH_SECRET:</strong> <code className="bg-gray-100 px-2 py-1 rounded text-sm">{process.env.AUTH_SECRET ? `${process.env.AUTH_SECRET.substring(0, 8)}...` : 'Not set'}</code></p>
+                  <p><strong>AUTH_GOOGLE_ID:</strong> <code className="bg-gray-100 px-2 py-1 rounded text-sm">{process.env.AUTH_GOOGLE_ID || 'Not set'}</code></p>
+                </div>
+                <div>
+                  <p><strong>AUTH_GOOGLE_SECRET:</strong> <code className="bg-gray-100 px-2 py-1 rounded text-sm">{process.env.AUTH_GOOGLE_SECRET ? 'Set (hidden for security)' : 'Not set'}</code></p>
+                  <p><strong>AUTH_TRUST_HOST:</strong> <code className="bg-gray-100 px-2 py-1 rounded text-sm">{process.env.AUTH_TRUST_HOST || 'Not set'}</code></p>
+                  <p><strong>NEXTAUTH_URL:</strong> <code className="bg-gray-100 px-2 py-1 rounded text-sm">{process.env.NEXTAUTH_URL || 'Not set'}</code></p>
+                  <p><strong>NEXTAUTH_SECRET:</strong> <code className="bg-gray-100 px-2 py-1 rounded text-sm">{process.env.NEXTAUTH_SECRET ? `${process.env.NEXTAUTH_SECRET.substring(0, 8)}...` : 'Not set'}</code></p>
+                </div>
+              </div>
+              
+              {/* All Environment Variables (Collapsible) */}
+              <details className="mt-4">
+                <summary className="cursor-pointer font-medium text-blue-600 hover:text-blue-800">
+                  Show All Environment Variables
+                </summary>
+                <div className="mt-2 p-3 bg-gray-50 rounded border">
+                  <pre className="text-xs overflow-x-auto">
+                    {Object.entries(process.env)
+                      .filter(([key]) => key.startsWith('AUTH_') || key.startsWith('DATABASE_') || key.startsWith('NEXT') || key === 'NODE_ENV')
+                      .map(([key, value]) => {
+                        // Mask sensitive values
+                        const displayValue = key.includes('SECRET') || key.includes('PASSWORD') || key === 'DATABASE_URL'
+                          ? value ? '***HIDDEN***' : 'Not set'
+                          : value || 'Not set';
+                        return `${key}=${displayValue}`;
+                      })
+                      .join('\n')}
+                  </pre>
+                </div>
+              </details>
+            </div>
+          </CardContent>
+        </Card>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
