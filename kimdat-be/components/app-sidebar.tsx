@@ -77,6 +77,7 @@ const data = {
       title: "Tin tức",
       url: "#",
       icon: Newspaper,
+      isActive: true,
       items: [
         {
           title: "Danh mục tin tức",
