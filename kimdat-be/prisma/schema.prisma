@@ -27,7 +27,7 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-model Products_Category {
+model ProductsCategory {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String?
@@ -45,7 +45,7 @@ model Product {
   weavingStyle String?        // Kiểu đan
   color        String?        // Màu sắc
   categoryId   String         @db.ObjectId
-  category     Products_Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category     ProductsCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   images       ProductImage[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
