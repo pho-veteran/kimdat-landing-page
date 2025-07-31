@@ -33,10 +33,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create uploads directory if it doesn't exist
-    const uploadsDir = join(process.cwd(), 'uploads');
-    if (!existsSync(uploadsDir)) {
-      await mkdir(uploadsDir, { recursive: true });
+    // Create images directory if it doesn't exist
+    const imagesDir = join(process.cwd(), 'images');
+    if (!existsSync(imagesDir)) {
+      await mkdir(imagesDir, { recursive: true });
     }
 
     // Generate unique filename
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     const randomString = Math.random().toString(36).substring(2, 15);
     const fileExtension = file.name.split('.').pop();
     const fileName = `${timestamp}-${randomString}.${fileExtension}`;
-    const filePath = join(uploadsDir, fileName);
+    const filePath = join(imagesDir, fileName);
 
     // Convert file to buffer and save
     const bytes = await file.arrayBuffer();
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     await writeFile(filePath, buffer);
 
     // Return the file URL
-    const fileUrl = `/uploads/${fileName}`;
+    const fileUrl = `/images/${fileName}`;
 
     return NextResponse.json({
       success: true,

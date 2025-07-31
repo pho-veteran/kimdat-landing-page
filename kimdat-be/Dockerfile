@@ -38,8 +38,8 @@ RUN npx prisma generate
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 
-# Create uploads directory
-RUN mkdir -p /app/uploads
+# Create images directory for product images
+RUN mkdir -p /app/images
 
 # Expose port 3000
 EXPOSE 3000

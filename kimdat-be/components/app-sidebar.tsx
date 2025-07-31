@@ -68,7 +68,7 @@ const data = {
           url: "/products/categories",
         },
         {
-          title: "Sản phẩm",
+          title: "Quản lý sản phẩm",
           url: "/products",
         },
       ],
@@ -84,7 +84,7 @@ const data = {
           url: "/news/categories",
         },
         {
-          title: "Tin tức",
+          title: "Quản lý tin tức",
           url: "/news",
         },
       ],
