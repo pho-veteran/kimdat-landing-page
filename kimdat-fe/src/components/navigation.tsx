@@ -22,15 +22,53 @@ const NAV_LINKS = [
 interface NavigationProps {
   scrolled?: boolean;
   categories?: Category[];
+  isLoadingCategories?: boolean;
 }
 
 interface MobileNavigationProps {
   isOpen: boolean;
   onClose: () => void;
   categories?: Category[];
+  isLoadingCategories?: boolean;
 }
 
-export function MobileNavigation({ isOpen, onClose, categories = [] }: MobileNavigationProps) {
+// Loading skeleton components
+function MobileSubmenuSkeleton() {
+  return (
+    <div className="ml-6 pl-4 border-l-2 border-gray-200/50 space-y-1">
+      <div className="flex items-center gap-3 px-4 py-2.5 rounded-lg">
+        <div className="w-1.5 h-1.5 bg-gray-200 rounded-full animate-pulse" />
+        <div className="h-4 bg-gray-200 rounded animate-pulse flex-1" />
+      </div>
+      {[...Array(3)].map((_, i) => (
+        <div key={i} className="flex items-center gap-3 px-4 py-2.5 rounded-lg">
+          <div className="w-1 h-1 bg-gray-200 rounded-full animate-pulse" />
+          <div className="h-3 bg-gray-200 rounded animate-pulse flex-1" />
+          <div className="h-3 w-8 bg-gray-200 rounded animate-pulse" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function DesktopSubmenuSkeleton() {
+  return (
+    <div className="py-2">
+      <div className="px-4 py-2">
+        <div className="h-4 bg-gray-200 rounded animate-pulse w-24" />
+      </div>
+      <div className="border-t border-gray-100 my-1"></div>
+      {[...Array(3)].map((_, i) => (
+        <div key={i} className="flex items-center justify-between px-4 py-2">
+          <div className="h-3 bg-gray-200 rounded animate-pulse flex-1 mr-4" />
+          <div className="h-3 w-8 bg-gray-200 rounded animate-pulse" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function MobileNavigation({ isOpen, onClose, categories = [], isLoadingCategories = false }: MobileNavigationProps) {
   const [showProducts, setShowProducts] = useState(true);
 
   // Close menu on escape key
@@ -130,28 +168,32 @@ export function MobileNavigation({ isOpen, onClose, categories = [] }: MobileNav
                 {/* Submenu with animation */}
                 <div className={`overflow-hidden transition-all duration-300 ease-in-out ${showProducts ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                   }`}>
-                  <div className="ml-6 pl-4 border-l-2 border-gray-200/50 space-y-1">
-                    <Link
-                      to="/san-pham"
-                      onClick={onClose}
-                      className="group flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-primary font-medium rounded-lg hover:bg-primary/5 transition-all duration-200 hover:translate-x-1"
-                    >
-                      <Circle size={6} className="text-gray-400 group-hover:text-primary transition-colors fill-current" />
-                      <span>Tất cả sản phẩm</span>
-                    </Link>
-                    {categories.map((category) => (
+                  {isLoadingCategories ? (
+                    <MobileSubmenuSkeleton />
+                  ) : (
+                    <div className="ml-6 pl-4 border-l-2 border-gray-200/50 space-y-1">
                       <Link
-                        key={category.id}
-                        to={`/san-pham/${category.id}`}
+                        to="/san-pham"
                         onClick={onClose}
-                        className="group flex items-center gap-3 px-4 py-2.5 text-sm text-gray-500 hover:text-primary font-medium rounded-lg hover:bg-primary/5 transition-all duration-200 hover:translate-x-1"
+                        className="group flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-primary font-medium rounded-lg hover:bg-primary/5 transition-all duration-200 hover:translate-x-1"
                       >
-                        <Circle size={4} className="text-gray-300 group-hover:text-primary transition-colors fill-current" />
-                        <span>{category.name}</span>
-                        <span className="ml-auto text-xs text-gray-400">({category._count.products})</span>
+                        <Circle size={6} className="text-gray-400 group-hover:text-primary transition-colors fill-current" />
+                        <span>Tất cả sản phẩm</span>
                       </Link>
-                    ))}
-                  </div>
+                      {categories.map((category) => (
+                        <Link
+                          key={category.id}
+                          to={`/san-pham/${category.id}`}
+                          onClick={onClose}
+                          className="group flex items-center gap-3 px-4 py-2.5 text-sm text-gray-500 hover:text-primary font-medium rounded-lg hover:bg-primary/5 transition-all duration-200 hover:translate-x-1"
+                        >
+                          <Circle size={4} className="text-gray-300 group-hover:text-primary transition-colors fill-current" />
+                          <span>{category.name}</span>
+                          <span className="ml-auto text-xs text-gray-400">({category._count.products})</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -192,7 +234,7 @@ export function MobileNavigation({ isOpen, onClose, categories = [] }: MobileNav
   );
 }
 
-export function Navigation({ scrolled = false, categories = [] }: NavigationProps) {
+export function Navigation({ scrolled = false, categories = [], isLoadingCategories = false }: NavigationProps) {
   return (
     <nav className="hidden md:flex items-center gap-2 md:gap-6">
       <Link
@@ -219,25 +261,29 @@ export function Navigation({ scrolled = false, categories = [] }: NavigationProp
 
         {/* Hover dropdown menu */}
         <div className="absolute top-full left-0 mt-1 w-56 bg-white border border-border shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-          <div className="py-2">
-            <Link
-              to="/san-pham"
-              className="block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground transition-colors font-medium"
-            >
-              Tất cả sản phẩm
-            </Link>
-            <div className="border-t border-gray-100 my-1"></div>
-            {categories.map((category) => (
+          {isLoadingCategories ? (
+            <DesktopSubmenuSkeleton />
+          ) : (
+            <div className="py-2">
               <Link
-                key={category.id}
-                to={`/san-pham/${category.id}`}
-                className="flex items-center justify-between px-4 py-2 text-sm text-gray-600 hover:bg-accent hover:text-accent-foreground transition-colors"
+                to="/san-pham"
+                className="block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground transition-colors font-medium"
               >
-                <span>{category.name}</span>
-                <span className="text-xs text-gray-400">({category._count.products})</span>
+                Tất cả sản phẩm
               </Link>
-            ))}
-          </div>
+              <div className="border-t border-gray-100 my-1"></div>
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  to={`/san-pham/${category.id}`}
+                  className="flex items-center justify-between px-4 py-2 text-sm text-gray-600 hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  <span>{category.name}</span>
+                  <span className="text-xs text-gray-400">({category._count.products})</span>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
