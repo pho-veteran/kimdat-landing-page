@@ -11,6 +11,7 @@ interface CategoriesClientProps {
     id: string
     name: string
     description: string | null
+    coverImageUrl: string | null
     createdAt: Date
     updatedAt: Date
     _count: {

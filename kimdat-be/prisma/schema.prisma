@@ -28,12 +28,13 @@ model User {
 }
 
 model ProductsCategory {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  description String?
-  products    Product[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  description    String?
+  coverImageUrl  String?
+  products       Product[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }
 
 model Product {

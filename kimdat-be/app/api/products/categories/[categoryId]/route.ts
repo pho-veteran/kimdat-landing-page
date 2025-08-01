@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma"
 const updateCategorySchema = z.object({
   name: z.string().min(1, "Tên danh mục là bắt buộc"),
   description: z.string().optional(),
+  coverImageUrl: z.string().optional(),
 })
 
 interface RouteParams {
@@ -34,7 +35,7 @@ export async function PUT(
       )
     }
 
-    const { name, description } = result.data
+    const { name, description, coverImageUrl } = result.data
 
     // Check if category exists
     const existingCategory = await prisma.productsCategory.findUnique({
@@ -73,7 +74,8 @@ export async function PUT(
       where: { id: categoryId },
       data: {
         name,
-        description: description || null
+        description: description || null,
+        coverImageUrl: coverImageUrl || null
       },
       include: {
         _count: {

@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma"
 const createCategorySchema = z.object({
   name: z.string().min(1, "Tên danh mục là bắt buộc"),
   description: z.string().optional(),
+  coverImageUrl: z.string().optional(),
 })
 
 export async function POST(request: NextRequest) {
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { name, description } = result.data
+    const { name, description, coverImageUrl } = result.data
 
     // Check if category with same name already exists
     const existingCategory = await prisma.productsCategory.findFirst({
@@ -47,7 +48,8 @@ export async function POST(request: NextRequest) {
     const newCategory = await prisma.productsCategory.create({
       data: {
         name,
-        description: description || null
+        description: description || null,
+        coverImageUrl: coverImageUrl || null
       },
       include: {
         _count: {
