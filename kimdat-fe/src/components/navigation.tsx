@@ -1,5 +1,17 @@
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
+import { 
+  Menu, 
+  X, 
+  Home, 
+  Package, 
+  Newspaper, 
+  Phone, 
+  ChevronRight, 
+  ChevronDown,
+  Circle
+} from "lucide-react";
+import type { Category } from "@/types/api";
 
 const NAV_LINKS = [
   { label: "Trang chủ", href: "/" },
@@ -9,15 +21,17 @@ const NAV_LINKS = [
 
 interface NavigationProps {
   scrolled?: boolean;
+  categories?: Category[];
 }
 
 interface MobileNavigationProps {
   isOpen: boolean;
   onClose: () => void;
+  categories?: Category[];
 }
 
-export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
-  const [showProducts, setShowProducts] = useState(false);
+export function MobileNavigation({ isOpen, onClose, categories = [] }: MobileNavigationProps) {
+  const [showProducts, setShowProducts] = useState(true);
 
   // Close menu on escape key
   useEffect(() => {
@@ -62,9 +76,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" className="text-primary">
-                    <path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <Menu size={16} className="text-primary" />
                 </div>
                 <div>
                   <span className="text-lg font-bold text-gray-900">Menu</span>
@@ -76,9 +88,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
                 className="p-2.5 hover:bg-white/70 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 group"
                 aria-label="Close menu"
               >
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" className="text-gray-600 group-hover:text-gray-800 transition-colors">
-                  <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <X size={20} className="text-gray-600 group-hover:text-gray-800 transition-colors" />
               </button>
             </div>
           </div>
@@ -93,16 +103,11 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
                 className="group flex items-center gap-4 px-4 py-3.5 text-gray-700 hover:text-primary font-medium rounded-xl hover:bg-primary/5 transition-all duration-200 hover:translate-x-1"
               >
                 <div className="w-5 h-5 flex items-center justify-center">
-                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" className="transition-colors">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M9 22V12h6v10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <Home size={18} className="transition-colors" />
                 </div>
                 <span>{NAV_LINKS[0].label}</span>
                 <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
-                    <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <ChevronRight size={14} />
                 </div>
               </Link>
 
@@ -110,32 +115,20 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
               <div className="space-y-1">
                 <button
                   onClick={() => setShowProducts(!showProducts)}
-                  className={`group w-full flex items-center gap-4 px-4 py-3.5 font-medium rounded-xl transition-all duration-200 hover:translate-x-1 ${showProducts
-                      ? 'text-primary bg-primary/5'
-                      : 'text-gray-700 hover:text-primary hover:bg-primary/5'
-                    }`}
+                  className="group w-full flex items-center gap-4 px-4 py-3.5 font-medium rounded-xl transition-all duration-200 hover:translate-x-1 text-gray-700 hover:text-primary hover:bg-primary/5"
                 >
                   <div className="w-5 h-5 flex items-center justify-center">
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" className="transition-colors">
-                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" stroke="currentColor" strokeWidth="2" />
-                      <path d="M8 21h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M12 17v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <Package size={18} className="transition-colors" />
                   </div>
                   <span className="flex-1 text-left">Sản phẩm</span>
-                  <svg
-                    width="16"
-                    height="16"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    className={`transform transition-all duration-300 ${showProducts ? 'rotate-180 text-primary' : 'text-gray-400'}`}
-                  >
-                    <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <ChevronDown 
+                    size={16}
+                    className={`transform transition-all duration-300 text-gray-400 ${showProducts ? 'rotate-180' : ''}`}
+                  />
                 </button>
 
                 {/* Submenu with animation */}
-                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${showProducts ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
+                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${showProducts ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                   }`}>
                   <div className="ml-6 pl-4 border-l-2 border-gray-200/50 space-y-1">
                     <Link
@@ -143,9 +136,21 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
                       onClick={onClose}
                       className="group flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-primary font-medium rounded-lg hover:bg-primary/5 transition-all duration-200 hover:translate-x-1"
                     >
-                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full group-hover:bg-primary transition-colors"></div>
+                      <Circle size={6} className="text-gray-400 group-hover:text-primary transition-colors fill-current" />
                       <span>Tất cả sản phẩm</span>
                     </Link>
+                    {categories.map((category) => (
+                      <Link
+                        key={category.id}
+                        to={`/san-pham/${category.id}`}
+                        onClick={onClose}
+                        className="group flex items-center gap-3 px-4 py-2.5 text-sm text-gray-500 hover:text-primary font-medium rounded-lg hover:bg-primary/5 transition-all duration-200 hover:translate-x-1"
+                      >
+                        <Circle size={4} className="text-gray-300 group-hover:text-primary transition-colors fill-current" />
+                        <span>{category.name}</span>
+                        <span className="ml-auto text-xs text-gray-400">({category._count.products})</span>
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -157,15 +162,11 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
                 className="group flex items-center gap-4 px-4 py-3.5 text-gray-700 hover:text-primary font-medium rounded-xl hover:bg-primary/5 transition-all duration-200 hover:translate-x-1"
               >
                 <div className="w-5 h-5 flex items-center justify-center">
-                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" className="transition-colors">
-                    <path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2 2 2 0 01-2-2V6a2 2 0 012-2h2" stroke="currentColor" strokeWidth="2" />
-                  </svg>
+                  <Newspaper size={18} className="transition-colors" />
                 </div>
                 <span>{NAV_LINKS[1].label}</span>
                 <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
-                    <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <ChevronRight size={14} />
                 </div>
               </Link>
 
@@ -176,15 +177,11 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
                 className="group flex items-center gap-4 px-4 py-3.5 text-gray-700 hover:text-primary font-medium rounded-xl hover:bg-primary/5 transition-all duration-200 hover:translate-x-1"
               >
                 <div className="w-5 h-5 flex items-center justify-center">
-                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" className="transition-colors">
-                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <Phone size={18} className="transition-colors" />
                 </div>
                 <span>{NAV_LINKS[2].label}</span>
                 <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
-                    <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <ChevronRight size={14} />
                 </div>
               </Link>
             </div>
@@ -195,7 +192,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
   );
 }
 
-export function Navigation({ scrolled = false }: NavigationProps) {
+export function Navigation({ scrolled = false, categories = [] }: NavigationProps) {
   return (
     <nav className="hidden md:flex items-center gap-2 md:gap-6">
       <Link
@@ -217,21 +214,29 @@ export function Navigation({ scrolled = false }: NavigationProps) {
             }`}
         >
           Sản phẩm
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          <ChevronDown size={16} />
         </Link>
 
         {/* Hover dropdown menu */}
-        <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-border shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-          <div className="py-1">
+        <div className="absolute top-full left-0 mt-1 w-56 bg-white border border-border shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+          <div className="py-2">
             <Link
               to="/san-pham"
-              className="block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+              className="block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground transition-colors font-medium"
             >
               Tất cả sản phẩm
             </Link>
-            {/* Add more menu items here */}
+            <div className="border-t border-gray-100 my-1"></div>
+            {categories.map((category) => (
+              <Link
+                key={category.id}
+                to={`/san-pham/${category.id}`}
+                className="flex items-center justify-between px-4 py-2 text-sm text-gray-600 hover:bg-accent hover:text-accent-foreground transition-colors"
+              >
+                <span>{category.name}</span>
+                <span className="text-xs text-gray-400">({category._count.products})</span>
+              </Link>
+            ))}
           </div>
         </div>
       </div>

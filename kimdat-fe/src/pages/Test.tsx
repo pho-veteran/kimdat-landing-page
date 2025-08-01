@@ -1,7 +1,89 @@
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { HeroCarousel } from '@/components/ui/hero-carousel'
+import { apiService } from '@/services/api'
+import type { Category, Product } from '@/types/api'
 
 export default function Test() {
+  const [categories, setCategories] = useState<Category[]>([])
+  const [categoryProducts, setCategoryProducts] = useState<{ category: Category | null, products: Product[] }>({ category: null, products: [] })
+  const [productDetail, setProductDetail] = useState<{ product: Product | null, relatedProducts: Product[] }>({ product: null, relatedProducts: [] })
+  const [recentProducts, setRecentProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const testGetCategories = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const response = await apiService.getCategories()
+      setCategories(response.data)
+      console.log('Categories fetched:', response.data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch categories')
+      console.error('Error fetching categories:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const testGetProductsByCategory = async (categoryId?: string) => {
+    try {
+      setLoading(true)
+      setError(null)
+      // Use first category if no ID provided
+      const id = categoryId || categories[0]?.id
+      if (!id) {
+        setError('No category ID available. Please fetch categories first.')
+        return
+      }
+      const response = await apiService.getProductsByCategory(id)
+      setCategoryProducts(response.data)
+      console.log('Category products fetched:', response.data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch category products')
+      console.error('Error fetching category products:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const testGetProductById = async (productId?: string) => {
+    try {
+      setLoading(true)
+      setError(null)
+      // Use first product from category products if no ID provided
+      const id = productId || categoryProducts.products[0]?.id
+      if (!id) {
+        setError('No product ID available. Please fetch category products first.')
+        return
+      }
+      const response = await apiService.getProductById(id)
+      setProductDetail(response.data)
+      console.log('Product detail fetched:', response.data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch product detail')
+      console.error('Error fetching product detail:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const testGetRecentProducts = async (limit?: number) => {
+    try {
+      setLoading(true)
+      setError(null)
+      const response = await apiService.getRecentProducts(limit)
+      setRecentProducts(response.data)
+      console.log('Recent products fetched:', response.data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch recent products')
+      console.error('Error fetching recent products:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background font-sans">
       {/* Header - Clean Modern Navigation */}
@@ -217,6 +299,168 @@ export default function Test() {
               <Button variant="outline" size="lg" className="px-8">
                 View Documentation
             </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* API Testing Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-8">API Testing</h2>
+            
+            {/* API Controls */}
+            <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
+              <div className="flex flex-wrap gap-4 mb-4">
+                <Button onClick={testGetCategories} disabled={loading}>
+                  {loading ? 'Loading...' : 'Test Get Categories'}
+                </Button>
+                <Button onClick={() => testGetProductsByCategory()} disabled={loading || categories.length === 0}>
+                  Test Get Products by Category
+                </Button>
+                <Button onClick={() => testGetProductById()} disabled={loading || categoryProducts.products.length === 0}>
+                  Test Get Product Detail
+                </Button>
+                <Button onClick={() => testGetRecentProducts()} disabled={loading}>
+                  Test Get Recent Products
+                </Button>
+                <Button onClick={() => testGetRecentProducts(5)} disabled={loading}>
+                  Get Recent (5 items)
+                </Button>
+              </div>
+              
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+                  <strong>Error:</strong> {error}
+                </div>
+              )}
+            </div>
+
+            {/* API Results */}
+            <div className="space-y-6">
+              {/* Categories Results */}
+              {categories.length > 0 && (
+                <div className="bg-white p-6 rounded-lg shadow-sm">
+                  <h3 className="text-xl font-semibold mb-4">Categories ({categories.length})</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {categories.map((category) => (
+                      <div key={category.id} className="border border-gray-200 p-4 rounded">
+                        <h4 className="font-medium">{category.name}</h4>
+                        <p className="text-sm text-gray-600">{category.description}</p>
+                        <p className="text-xs text-gray-500">{category._count.products} products</p>
+                        <Button 
+                          size="sm" 
+                          className="mt-2" 
+                          onClick={() => testGetProductsByCategory(category.id)}
+                        >
+                          Get Products
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Category Products Results */}
+              {categoryProducts.category && (
+                <div className="bg-white p-6 rounded-lg shadow-sm">
+                  <h3 className="text-xl font-semibold mb-4">
+                    Products in "{categoryProducts.category.name}" ({categoryProducts.products.length})
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {categoryProducts.products.map((product) => (
+                      <div key={product.id} className="border border-gray-200 p-4 rounded">
+                        <h4 className="font-medium">{product.name}</h4>
+                        <p className="text-sm text-gray-600 line-clamp-2">{product.description}</p>
+                        {product.price && (
+                          <p className="text-sm font-semibold text-green-600">
+                            {product.price.toLocaleString('vi-VN')} VND
+                          </p>
+                        )}
+                        <p className="text-xs text-gray-500">{product.images.length} images</p>
+                        <Button 
+                          size="sm" 
+                          className="mt-2" 
+                          onClick={() => testGetProductById(product.id)}
+                        >
+                          Get Details
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Product Detail Results */}
+              {productDetail.product && (
+                <div className="bg-white p-6 rounded-lg shadow-sm">
+                  <h3 className="text-xl font-semibold mb-4">Product Detail</h3>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="text-lg font-medium mb-2">{productDetail.product.name}</h4>
+                      <p className="text-gray-600 mb-4">{productDetail.product.description}</p>
+                      {productDetail.product.price && (
+                        <p className="text-xl font-bold text-green-600 mb-4">
+                          {productDetail.product.price.toLocaleString('vi-VN')} VND
+                        </p>
+                      )}
+                      <div className="space-y-2 text-sm">
+                        {productDetail.product.material && <p><strong>Material:</strong> {productDetail.product.material}</p>}
+                        {productDetail.product.weavingStyle && <p><strong>Weaving Style:</strong> {productDetail.product.weavingStyle}</p>}
+                        {productDetail.product.color && <p><strong>Color:</strong> {productDetail.product.color}</p>}
+                        <p><strong>Category:</strong> {productDetail.product.category.name}</p>
+                        <p><strong>Images:</strong> {productDetail.product.images.length}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h5 className="font-medium mb-2">Related Products ({productDetail.relatedProducts.length})</h5>
+                      <div className="space-y-2">
+                        {productDetail.relatedProducts.map((related) => (
+                          <div key={related.id} className="border border-gray-100 p-2 rounded text-sm">
+                            <p className="font-medium">{related.name}</p>
+                            {related.price && (
+                              <p className="text-green-600">{related.price.toLocaleString('vi-VN')} VND</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Recent Products Results */}
+              {recentProducts.length > 0 && (
+                <div className="bg-white p-6 rounded-lg shadow-sm">
+                  <h3 className="text-xl font-semibold mb-4">Recent Products ({recentProducts.length})</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {recentProducts.map((product) => (
+                      <div key={product.id} className="border border-gray-200 p-4 rounded">
+                        <h4 className="font-medium">{product.name}</h4>
+                        <p className="text-sm text-gray-600 line-clamp-2">{product.description}</p>
+                        {product.price && (
+                          <p className="text-sm font-semibold text-green-600">
+                            {product.price.toLocaleString('vi-VN')} VND
+                          </p>
+                        )}
+                        <div className="text-xs text-gray-500 mt-2">
+                          <p>Category: {product.category.name}</p>
+                          <p>Images: {product.images.length}</p>
+                          <p>Added: {new Date(product.createdAt).toLocaleDateString('vi-VN')}</p>
+                        </div>
+                        <Button 
+                          size="sm" 
+                          className="mt-2" 
+                          onClick={() => testGetProductById(product.id)}
+                        >
+                          Get Details
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

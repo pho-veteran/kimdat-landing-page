@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import { Logo } from "../logo";
 import { Navigation, MobileNavigation } from "../navigation";
 import { cn } from "@/lib/utils";
+import { apiService } from "@/services/api";
+import type { Category } from "@/types/api";
+import { Menu } from "lucide-react";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,6 +17,20 @@ export function Header() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await apiService.getCategories();
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Failed to fetch categories:', error);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   return (
@@ -35,7 +53,7 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <div className="relative z-20">
-            <Navigation scrolled={scrolled} />
+            <Navigation scrolled={scrolled} categories={categories} />
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -47,9 +65,7 @@ export function Header() {
               }`}
             aria-label="Open menu"
           >
-            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <Menu size={24} />
           </button>
         </div>
       </header>
@@ -58,6 +74,7 @@ export function Header() {
       <MobileNavigation
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
+        categories={categories}
       />
     </>
   );

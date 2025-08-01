@@ -1,15 +1,14 @@
 import { BrowserRouter as Router } from 'react-router'
 import AppRoutes from './routes'
-import { Header } from './components/ui/header'
-import { Footer } from './components/ui/footer'
+import AppLayout from './layouts/app-layout'
 
 function App() {
   return (
     <>
       <Router>
-        <Header />
-        <AppRoutes />
-        <Footer />
+        <AppLayout>
+          <AppRoutes />
+        </AppLayout>
       </Router>
     </>
   )
