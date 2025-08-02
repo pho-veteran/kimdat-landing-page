@@ -45,13 +45,11 @@ services:
     environment:
       - NODE_ENV=production
     volumes:
-      - images_data:/app/images
+      - ./kimdat-be/images:/app/images
     networks:
       - kimdat-network
 
 volumes:
-  images_data:
-    driver: local
   frontend_dist:
     driver: local
 

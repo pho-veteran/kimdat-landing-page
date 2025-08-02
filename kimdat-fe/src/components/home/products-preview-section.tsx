@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router'
 import { apiService } from '@/services/api'
 import type { Product } from '@/types/api'
 import { ArrowRight, Leaf } from 'lucide-react'
 
 export function ProductsPreviewSection() {
+  const navigate = useNavigate()
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -228,7 +230,8 @@ export function ProductsPreviewSection() {
 
         <motion.div
           initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
           variants={containerVariants}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
         >
@@ -308,6 +311,7 @@ export function ProductsPreviewSection() {
             <div className="absolute inset-0 bg-gradient-to-r from-green-50 via-white to-green-50 rounded-full transform -rotate-1"></div>
 
             <motion.button
+              onClick={() => navigate('/san-pham')}
               whileHover={{
                 scale: 1.02,
                 y: -2

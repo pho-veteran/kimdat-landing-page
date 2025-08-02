@@ -38,8 +38,8 @@ RUN npx prisma generate
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 
-# Create images directory for product images
-RUN mkdir -p /app/images
+# Copy all images from the real images folder
+COPY --from=builder /app/images ./images
 
 # Expose port 3000
 EXPOSE 3000
